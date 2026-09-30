@@ -196,12 +196,12 @@ export function SideBar(props: { className?: string }) {
               <div className={styles["system-prompt-label-row"]}>
                 <span>Systemprompt</span>
                 {systemPromptHidden && (
-                  <span
+                  <div
                     className={styles["system-prompt-eye"]}
                     title="Systemprompten er skjult"
                   >
                     <EyeOffIcon />
-                  </span>
+                  </div>
                 )}
               </div>
               {!editableSystemPrompt && (

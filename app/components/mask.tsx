@@ -185,7 +185,7 @@ export function MaskConfig(props: {
         });
       } else {
         props.updateMask((mask) => {
-          mask.hideSystemPrompt = !mask.hideSystemPrompt;
+          mask.hideSystemPrompt = !systemPromptHidden;
         });
       }
     };

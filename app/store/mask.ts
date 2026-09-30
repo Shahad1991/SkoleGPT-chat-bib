@@ -27,12 +27,14 @@ export type Mask = {
 // Owned/session masks carry `hideSystemPrompt` directly (it's saved on the
 // object itself). Builtin masks are read-only templates and can't be saved
 // to, so their hidden state instead lives in the app config's
-// `hiddenSystemPromptMaskIds`, keyed by mask id.
+// `hiddenSystemPromptMaskIds`, keyed by mask id. A mask's own
+// `hideSystemPrompt` (true or false) wins over that list, so a session made
+// from a hidden builtin can still be un-hidden.
 export function isSystemPromptHidden(
   mask: Pick<Mask, "id" | "builtin" | "hideSystemPrompt">,
   hiddenBuiltinMaskIds: string[],
 ): boolean {
-  if (mask.hideSystemPrompt) return true;
+  if (mask.hideSystemPrompt !== undefined) return mask.hideSystemPrompt;
   return mask.builtin && hiddenBuiltinMaskIds.includes(mask.id);
 }
 
@@ -50,7 +52,8 @@ export function decodeHiddenPrompt(encoded: string): string | undefined {
   try {
     const binary = atob(encoded.replace(/-/g, "+").replace(/_/g, "/"));
     const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
-    return new TextDecoder().decode(bytes);
+    // fatal: a truncated/corrupted link throws instead of decoding to U+FFFD.
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
   } catch {
     return undefined;
   }
