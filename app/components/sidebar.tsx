@@ -166,14 +166,22 @@ export function SideBar(props: { className?: string }) {
         transition: isMobileScreen && isIOSMobile ? "none" : undefined,
       }}
     >
-      <div className={styles["sidebar-header"]} data-tauri-drag-region>
+      <div
+        className={`${styles["sidebar-header"]} ${
+          env.SIDEBAR_INLINE_LOGO ? styles["sidebar-header-inline"] : ""
+        }`}
+        data-tauri-drag-region
+      >
         {env.SIDEBAR_INLINE_LOGO ? (
-          <Link
-            to={Path.Home}
-            className={styles["sidebar-logo-inline"] + " no-dark"}
-          >
-            <img src={env.APP_LOGO} alt="" />
-          </Link>
+          env.APP_LOGO && (
+            <Link
+              to={Path.Home}
+              className={styles["sidebar-logo-inline"] + " no-dark"}
+              aria-label="Gå til forsiden"
+            >
+              <img src={env.APP_LOGO} alt="" />
+            </Link>
+          )
         ) : (
           <div className={styles["sidebar-logo"] + " no-dark"}>
             <Link to={Path.Home}>
@@ -188,9 +196,11 @@ export function SideBar(props: { className?: string }) {
           <div className={styles["sidebar-title"]} data-tauri-drag-region>
             {env.APP_TITLE ?? "ChatBib"}
           </div>
-          <div className={styles["sidebar-sub-title"]}>
-            {env.APP_TAGLINE ?? "Bibliotekernes AI-chat"}
-          </div>
+          {!env.SIDEBAR_INLINE_LOGO && (
+            <div className={styles["sidebar-sub-title"]}>
+              {env.APP_TAGLINE ?? "Bibliotekernes AI-chat"}
+            </div>
+          )}
         </div>
       </div>
       {env.SYSTEM_PROMPT_IN_SIDEBAR ? (
@@ -283,8 +293,8 @@ export function SideBar(props: { className?: string }) {
         {env.SHOW_SETTINGS && (
           <div className={styles["sidebar-action"]}>
             <Link to={Path.Settings}>
-              {env.SIDEBAR_COMPACT_BUTTONS ? (
-                <IconButton icon={<ChatSettingsIcon />} size={3} shadow />
+              {env.SIDEBAR_LARGE_BUTTONS ? (
+                <IconButton icon={<ChatSettingsIcon />} size={4} shadow />
               ) : (
                 <IconButton icon={<SettingsIcon />} shadow />
               )}
@@ -300,8 +310,10 @@ export function SideBar(props: { className?: string }) {
           </div> 
         </div> */}
         <IconButton
-          className={styles.newChatButton}
-          size={env.SIDEBAR_COMPACT_BUTTONS ? 3 : 4}
+          className={`${styles.newChatButton} ${
+            env.SIDEBAR_LARGE_BUTTONS ? styles["newChatButton-large"] : ""
+          }`}
+          size={4}
           //    icon={<AddIcon  />}
           text={shouldNarrow ? undefined : Locale.Home.NewChat}
           onClick={() => {

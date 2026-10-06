@@ -31,8 +31,6 @@
   --chat-item-selected-color: var(--button-color); // Orange-500
   // samtale-titler i sidebaren: semibold i stedet for bold
   --chat-item-title-weight: 600;
-  // sidebar-logo og titel til venstre
-  --sidebar-header-justify: flex-start;
 }
 
 @mixin light {
@@ -49,8 +47,8 @@
   --hover-color: #f2f1ef; // Sort-100
   --bar-color: #474744; // Sort-700, scrollbar
   --button-color: #f05a23; // Orange-500
-  --button-text-color: var(--gray);
-  --button-hover-color: var(--black);
+  --button-text-color: #eef4e4; // Grøn-100
+  --button-hover-color: var(--black); // Sort-900
   --danger-color: #e54846; // Rød-500, slet-ikon
   --theme-color: var(--gray);
   --card-color: #f2f1ef; // Sort-100
@@ -79,8 +77,8 @@
 
   --bar-color: #767671; // Sort-500, scrollbar (lysere, så den ses på mørk baggrund)
   --button-color: #f05a23; // Orange-500
-  --button-text-color: var(--gray);
-  --button-hover-color: var(--black);
+  --button-text-color: #eef4e4; // Grøn-100
+  --button-hover-color: #b4440b; // Orange-700 (--black er lys i mørkt tema)
   --danger-color: #e54846; // Rød-500, slet-ikon
 
   --border-in-light: 1px solid rgba(255, 255, 255, 0.192);
